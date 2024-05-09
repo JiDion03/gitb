@@ -1,6 +1,6 @@
 
 import React from 'react';
-import './SearchBar.css'; 
+import './SearchBar.less'; 
 
 const SearchBar = ({ query, setQuery }) => {
     return (

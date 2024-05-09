@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Button from "../../components/button/Button";
+import { useAuth } from './AuthContext'; 
 import './login.less';
 import EmailInput from "../../components/InputFields/EmailInput/EmailInput";
 import PasswordInput from "../../components/InputFields/PasswordInput/PasswordInput";
-import AxiosRequest from '../../components/AxiosPostRequest';
-import '../../components/InputFields/EmailInput/EmailInput.less';
-import '../../components/InputFields/PasswordInput/PasswordInput.less';
- 
 
-const Login = ({ setLoginUser }) => {
-    const history = useNavigate();
+const Login = () => {
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
         password: ""
     });
-
+    const [error, setError] = useState(''); 
     const handleChange = e => {
         const { name, value } = e.target;
         setUser({
@@ -25,27 +23,37 @@ const Login = ({ setLoginUser }) => {
         });
     };
 
-    const login = (e) => {
+    const login = async (e) => {
         e.preventDefault();
-        const {email, password } = user;
-        console.log(email, password);
+        const { email, password } = user;
         if (!email || !password) {
-            alert("Please fill in both email and password fields.");
+            setError("Please fill in both email and password fields.");
             return;
         }
-        return <AxiosRequest url="http://localhost:5173/Login" data={user} />;
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+            console.log('Login successful:', response.data);
+            console.log('Setting auth:', response.data);
+            setAuth({ isLoggedIn: true, user: response.data.user });
+            navigate('/');
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setError('Failed to login, please check your credentials and try again.');
+        }
     };
-    
+
     return (
         <div className="login-container">
             <div className="login-heading">Login To Your Account</div>
             <div className="login-form">
                 <form autoComplete="off" onSubmit={login}>
-                <EmailInput value={user.email} handleChange={handleChange} />
-                <PasswordInput value={user.password} handleChange={handleChange} />
-                    <div className="input-field">
-                        <Button>Login</Button>
+                    <EmailInput value={user.email} handleChange={handleChange} />
+                    <PasswordInput value={user.password} handleChange={handleChange} />
+                    <div className="button-container">
+                        <Button type="submit">Login</Button>
                     </div>
+                    {error && <p className="error-message">{error}</p>}
                 </form>
             </div>
             <div className="forgot-password-link">

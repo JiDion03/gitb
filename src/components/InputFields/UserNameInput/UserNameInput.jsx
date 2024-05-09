@@ -1,11 +1,12 @@
 import React from "react";
 import './UserNameInput.less';
-const UsernameInput = ({user, handleChange}) => {
-    return ( 
+
+const UsernameInput = ({ value, handleChange }) => {
+    return (
         <div className="input-field">
-            <input type="text" name="name" value={user} onChange={handleChange} placeholder="Your username" />
-         </div>
-     );
+            <input type="text" name="username" value={value} onChange={handleChange} placeholder="Your username" />
+        </div>
+    );
 }
- 
+
 export default UsernameInput;

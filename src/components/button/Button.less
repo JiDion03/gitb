@@ -1,18 +1,25 @@
+@import "../navbar/navbar.less"; 
+
 .custom-button {
-    background-color: #FDA085;
-    color: #FBFBFB;
+    padding: 10px 20px;
+    background: linear-gradient(to right, @COLOR1, @COLOR1g);
+    color: @WHITE;
     border: none;
-    padding: 12px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    border-radius: 5px;
+    font-family: "Varela Round", sans-serif;
     font-size: 16px;
-    border-radius: 4px;
+    text-align: center;
     cursor: pointer;
-    width: 100%;
-  }
-  
-  .custom-button:hover {
-    background-color: darken(#FDA085, 10%);
-  }
-  
+    transition: background-color 0.3s, transform 0.3s;
+    align-self: center;
+
+    &:hover, &:focus {
+        background: linear-gradient(to right, @COLOR2, @COLOR2g); 
+        transform: translateY(-2px); 
+        outline: none; 
+    }
+
+    &:active {
+        transform: translateY(1px); 
+    }
+}

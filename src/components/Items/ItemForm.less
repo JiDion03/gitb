@@ -1,0 +1,42 @@
+@import "../navbar/navbar.less";
+
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid @COLOR3; 
+    background: linear-gradient(to bottom, @COLOR1, @COLOR2); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  
+    label {
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: @WHITE; 
+    }
+  
+    input, textarea, select {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 2px solid darken(@WHITE, 10%);
+        background: @WHITE;
+        border-radius: 4px;
+        color: @BLACK;
+    }
+  
+    button {
+        background-color: @COLOR6; 
+        color: @WHITE;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+            background-color: darken(@COLOR6, 10%);
+        }
+    }
+}

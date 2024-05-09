@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+
+@background-color: #333333;
+@text-color: #f0f0f0;
+@button-background: #007BFF;
+@button-hover-background: darken(@button-background, 10%);
+
+.profile-container {
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-start;
+    height: 100vh;
+    width: 100%;
+    background-color: @background-color;
+    color: @text-color;
+
+    .profile-content {
+        flex-grow: 1;
+        padding: 20px;
+
+        .welcome-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .menu {
+        width: 200px;
+        background-color: @background-color;
+        color: @text-color;
+        padding: 20px;
+        height: 100%;
+        overflow-y: auto;
+
+        ol {
+            list-style: none;
+            padding: 0;
+
+            li {
+                padding: 10px;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: @button-hover-background;
+                }
+
+                a {
+                    color: @text-color;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
