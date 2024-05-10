@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AddProduct.less';  // Ensure the CSS file is named correctly and located in the right folder
+import './AddProduct.less'; 
 
 const categories = {
   Electronics: ["Mobile Phones", "Laptops", "Cameras"],
@@ -54,7 +54,7 @@ function AddProduct() {
   };
 
   return (
-    <div className="add-product-form"> {/* This div applies the CSS styles to your form */}
+    <div className="add-product-form"> {}
       <form onSubmit={handleSubmit}>
         <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
         <textarea name="description" value={formData.description} onChange={handleInputChange} required />
