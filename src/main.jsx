@@ -9,6 +9,8 @@ import Login from "./pages/login/Login";
 import ItemList from './components/Items/ItemList';
 import ItemForm from './components/Items/ItemForm';
 import Profile from './pages/profile/Profile';
+import AddProduct from "./pages/addProduct/AddProduct";
+import DisplayProducts from "./pages/DisplayProduct/DisplayProduct";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -30,7 +32,9 @@ root.render(
           <Route path="login" element={<Login />} />
           <Route path="login/forgot_password" element={<div>Nu avem ce face:)</div>} />
           <Route path="items" element={<ItemList />} />
+          <Route path="add-product" element={<AddProduct />} />
           <Route path="add-item" element={<ItemForm />} />
+          <Route path="/products" component={DisplayProducts} />
           <Route path="404" element={<div>404</div>} />
           <Route path="*" element={<div>404</div>} />
         </Routes>

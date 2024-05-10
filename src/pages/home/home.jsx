@@ -5,6 +5,7 @@ import Navbar from "../../components/navbar/Navbar";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Button from "../../components/button/Button";
 import { useAuth } from "../login/AuthContext"; 
+import DisplayProducts from "../DisplayProduct/DisplayProduct";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -59,9 +60,10 @@ const Home = () => {
         </div>
       </div>
       <Navbar />
+      <DisplayProducts />
       <h1>Proiecte Colective 2024</h1>
       <Link to="/about">Frontend</Link>
-      <Link to="/add-item" className="header-button-link">
+      <Link to="/add-product" className="header-button-link">
         <Button className="header-button">Add Product</Button>
       </Link>
       <Link to="/items" className="header-button-link">

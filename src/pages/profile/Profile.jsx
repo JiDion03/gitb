@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Sidebar from './Sidebar'; 
+import './Profile.less';
+import Button from '../../components/button/Button';
 
 function Profile() {
     const { userId } = useParams();  
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true); 
+    
 
     useEffect(() => {
         console.log(`Fetching data for user ID: ${userId}`);
@@ -41,11 +44,14 @@ function Profile() {
     return (
         <div className="profile-container">
             <Sidebar />
-            <div className="profile-content">
-                <div className="welcome-message">
-                    Welcome back, {user.firstName} {user.lastName}, what are you up to?
-                </div>
+            <div className="top-bar">
             </div>
+                <div className="profile-content">
+                    <div className="welcome-message">
+                        Welcome back, {user.firstName} {user.lastName}, what are you up to?
+                    </div>
+                </div>
+            
         </div>
     );
 }

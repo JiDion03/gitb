@@ -13,6 +13,7 @@
     width: 100%;
     background-color: @background-color;
     color: @text-color;
+   
 
     .profile-content {
         flex-grow: 1;
@@ -21,6 +22,7 @@
         .welcome-message {
             font-size: 24px;
             margin-bottom: 20px;
+            color: #f0f0f0;
         }
     }
 
@@ -50,5 +52,57 @@
                 }
             }
         }
+    }
+}
+
+/* Add this part from home.less */
+.top-bar {
+    background-color: rgba(0, 0, 0, 0.971);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0; 
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(170, 10, 184, 0.2);
+    justify-content: space-between;
+    
+    .left-button-group, .center-container, .button-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .left-button-group {
+      flex: 1; 
+      justify-content: flex-start; 
+      gap: 10px; 
+    }
+
+    .center-container {
+      flex: 2;
+      justify-content: center;
+    }
+
+    .button-group {
+      flex: 1; 
+      gap: 10px;
+      justify-content: flex-end;
+    }
+  
+    .header-button, .header-button:link, .header-button:visited {
+      padding: 8px 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none; 
+      display: inline-block; 
+
+      &:hover {
+        background-color: #0056b3;
+      }
     }
 }
