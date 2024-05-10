@@ -16,7 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(cors()); // Make sure this is configured correctly
+app.use(cors()); 
 
 app.use('/api/users', userRoutes);
 app.use('/api/items', itemRoutes);
@@ -40,7 +40,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
         } else if (path.endsWith('.ico')) {
             res.setHeader('Content-Type', 'image/x-icon');
         }
-        // This setup will handle the most common image formats
+    
     }
 }));
 
