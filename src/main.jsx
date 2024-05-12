@@ -12,6 +12,7 @@ import Profile from './pages/profile/Profile';
 import AddProduct from "./pages/addProduct/AddProduct";
 import DisplayProducts from "./pages/DisplayProduct/DisplayProduct";
 
+
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 

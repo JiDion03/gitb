@@ -6,8 +6,11 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Button from "../../components/button/Button";
 import { useAuth } from "../login/AuthContext"; 
 import DisplayProducts from "../DisplayProduct/DisplayProduct";
+import FilterComponent from '../../components/filter/FilterComponent';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { auth, setAuth } = useAuth(); 
 
@@ -20,6 +23,18 @@ const Home = () => {
 
   const handleLogout = () => {
     setAuth({ isLoggedIn: false, user: null });
+  };
+
+  
+  const handleCategorySelect = async (category, subcategory) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/filter?category=${category}&subcategory=${subcategory}`);
+      const filteredProducts = await response.json();
+      setProducts(filteredProducts);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setProducts([]); 
+    }
   };
 
   return (
@@ -37,11 +52,11 @@ const Home = () => {
           <SearchBar query={searchQuery} setQuery={setSearchQuery} />
         </div>
         <div className="button-group">
-        {auth.isLoggedIn && userId ? (
+          {auth.isLoggedIn && userId ? (
             <div className="dropdown">
               <Button className="header-button">My Account</Button>
               <div className="dropdown-content">
-              <Link to={`/profile/${auth.user.id}`}>View Profile</Link>
+                <Link to={`/profile/${auth.user.id}`}>View Profile</Link>
                 <Link to="/settings">Settings</Link>
                 <Link to="/" onClick={handleLogout}>Logout</Link>
               </div>
@@ -59,8 +74,17 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <Navbar />
-      <DisplayProducts />
+
+      <div className="navigation-container">
+        <Navbar onCategorySelect={handleCategorySelect} />
+        <FilterComponent setProducts={setProducts} />
+      </div>
+
+
+      <ErrorBoundary>
+        <DisplayProducts products={products} setProducts={setProducts} />
+      </ErrorBoundary>
+
       <h1>Proiecte Colective 2024</h1>
       <Link to="/about">Frontend</Link>
       <Link to="/add-product" className="header-button-link">
