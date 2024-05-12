@@ -37,4 +37,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+router.get('/filter', async (req, res) => {
+  console.log("Received filter parameters:", req.query);
+  const { category, subcategory, priceMin, priceMax } = req.query;
+  let query = {};
+  if (category) query.category = category;
+  if (subcategory) query.subcategory = subcategory;
+  if (priceMin) query.price = { ...query.price, $gte: Number(priceMin) };
+  if (priceMax) query.price = { ...query.price, $lte: Number(priceMax) };
+  try {
+      const products = await Product.find(query);
+      console.log("Sending filtered products:", products);
+      res.json(products);
+  } catch (error) {
+      console.error("Error fetching filtered products:", error);
+      res.status(500).send("Error on fetching products: " + error);
+  }
+});
+
 module.exports = router;
