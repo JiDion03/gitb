@@ -12,6 +12,7 @@ import Profile from './pages/profile/Profile';
 import AddProduct from "./pages/addProduct/AddProduct";
 import DisplayProducts from "./pages/DisplayProduct/DisplayProduct";
 import CartPage from './pages/Cart/Cart';
+import FavoritesPage from './pages/Favorite/Favorite';
 import "./index.css";
 
 const rootElement = document.getElementById("root");
@@ -25,6 +26,7 @@ root.render(
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/usershop" element={<div>usershop tab</div>} />
             <Route path="/about" element={<div>About Frontend</div>} />
             <Route path="/daily_offers" element={<div>The daily offers</div>} />

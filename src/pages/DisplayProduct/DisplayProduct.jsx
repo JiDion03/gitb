@@ -5,6 +5,7 @@ import './DisplayProduct.less';
 
 function DisplayProducts({ products, setProducts }) {
     const { addToCart } = useCart();
+    const [favorites, setFavorites] = useState([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -21,6 +22,14 @@ function DisplayProducts({ products, setProducts }) {
             fetchProducts();
         }
     }, [products, setProducts]);
+
+    const toggleFavorite = (product) => {
+        if (favorites.includes(product._id)) {
+            setFavorites(favorites.filter(favId => favId !== product._id));
+        } else {
+            setFavorites([...favorites, product._id]);
+        }
+    };
 
     if (error) {
         return <p>Error loading products: {error}</p>;
@@ -40,6 +49,9 @@ function DisplayProducts({ products, setProducts }) {
                     <p className="price">${product.price}</p>
                     <p className="category">{product.category} - {product.subcategory}</p>
                     <button onClick={() => addToCart(product)}>Add to Cart</button>
+                    <button onClick={() => toggleFavorite(product)} className={favorites.includes(product._id) ? 'favorite-button active' : 'favorite-button'}>
+                        {favorites.includes(product._id) ? 'Remove from Favorites' : 'Add to Favorites'}
+                    </button>
                 </div>
             ))}
         </div>
