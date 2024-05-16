@@ -1,23 +1,21 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import "./home.less";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Button from "../../components/button/Button";
-import { useAuth } from "../login/AuthContext"; 
+import { useAuth } from "../login/AuthContext";
 import DisplayProducts from "../DisplayProduct/DisplayProduct";
 import FilterComponent from '../../components/filter/FilterComponent';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import { useProducts } from '../../components/hooks/useProducts';
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const { products, setProducts } = useProducts();  // Use the hook
   const [searchQuery, setSearchQuery] = useState("");
-  const { auth, setAuth } = useAuth(); 
-
-  const userId = auth.user && auth.user.id; 
+  const { auth, setAuth } = useAuth();
 
   const handleSearch = (query) => {
-    console.log("Searching for:", query);
     setSearchQuery(query);
   };
 
@@ -25,15 +23,15 @@ const Home = () => {
     setAuth({ isLoggedIn: false, user: null });
   };
 
-  
   const handleCategorySelect = async (category, subcategory) => {
     try {
       const response = await fetch(`http://localhost:5000/api/products/filter?category=${category}&subcategory=${subcategory}`);
+      if (!response.ok) throw new Error('Network response was not ok.');
       const filteredProducts = await response.json();
       setProducts(filteredProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
-      setProducts([]); 
+      setProducts([]);
     }
   };
 
@@ -52,7 +50,7 @@ const Home = () => {
           <SearchBar query={searchQuery} setQuery={setSearchQuery} />
         </div>
         <div className="button-group">
-          {auth.isLoggedIn && userId ? (
+          {auth.isLoggedIn && auth.user.id ? (
             <div className="dropdown">
               <Button className="header-button">My Account</Button>
               <div className="dropdown-content">
@@ -80,9 +78,8 @@ const Home = () => {
         <FilterComponent setProducts={setProducts} />
       </div>
 
-
       <ErrorBoundary>
-        <DisplayProducts products={products} setProducts={setProducts} />
+         <DisplayProducts products={products} setProducts={setProducts} />
       </ErrorBoundary>
 
       <h1>Proiecte Colective 2024</h1>
@@ -93,7 +90,7 @@ const Home = () => {
       <Link to="/items" className="header-button-link">
         <Button className="header-button">List of Products</Button>
       </Link>
-      <Button onClick={() => setAuth({ isLoggedIn: !auth.isLoggedIn })}>Toggle Login</Button> 
+      <Button onClick={() => setAuth({ isLoggedIn: !auth.isLoggedIn })}>Toggle Login</Button>
     </div>
   );
 };

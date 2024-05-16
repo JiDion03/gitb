@@ -120,14 +120,12 @@ const FilterComponent = ({ setProducts }) => {
     const [priceMax, setPriceMax] = useState('');
     const [error, setError] = useState('');
 
-    
     useEffect(() => {
         const urlCategory = query.get('category');
         const urlSubcategory = query.get('subcategory');
 
         if (urlCategory && urlCategory !== selectedCategory) {
             setSelectedCategory(urlCategory);
-            
             setSelectedSubcategory('');
         }
         
@@ -136,12 +134,11 @@ const FilterComponent = ({ setProducts }) => {
         }
     }, [query]); 
 
-   
     useEffect(() => {
         if (selectedCategory && selectedSubcategory) {
             handleFilter();
         }
-    }, [selectedCategory, selectedSubcategory, priceMin, priceMax]); 
+    }, [selectedCategory, selectedSubcategory, priceMin, priceMax]);
 
     const handleFilter = async () => {
         setError('');
@@ -162,7 +159,7 @@ const FilterComponent = ({ setProducts }) => {
         } catch (error) {
             console.error('Failed to fetch filtered products:', error);
             setError('Failed to load products. Please try again.');
-            setProducts([]); 
+            setProducts([]);
         }
     };
 

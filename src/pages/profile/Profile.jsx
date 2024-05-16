@@ -44,8 +44,7 @@ function Profile() {
     return (
         <div className="profile-container">
             <Sidebar />
-            <div className="top-bar">
-            </div>
+            
                 <div className="profile-content">
                     <div className="welcome-message">
                         Welcome back, {user.firstName} {user.lastName}, what are you up to?
