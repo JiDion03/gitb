@@ -1,15 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from '../Cart/CartContext';
-import './Favorite.less';  
+import { useNavigate } from 'react-router-dom';
+import './Favorite.less';
 
 function FavoritesPage({ products }) {
     const { addToCart } = useCart();
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const navigate = useNavigate();
+    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || []);
+
+    useEffect(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        setFavorites(storedFavorites);
+    }, []);
 
     const favoriteProducts = products.filter(product => favorites.includes(product._id));
 
+    const removeFromFavorites = (productId) => {
+        const updatedFavorites = favorites.filter(favId => favId !== productId);
+        setFavorites(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
+    const handleAddToCart = (product) => {
+        addToCart(product);
+        alert('Item added to cart!');
+    };
+
+    const handleContinueShopping = () => {
+        navigate(-1); 
+    };
+
     if (favoriteProducts.length === 0) {
-        return <div className="favorites-container">No favorites added.</div>;
+        return (
+            <div className="favorites-container">
+                <p>No favorites added.</p>
+                <button onClick={handleContinueShopping} className="continue-shopping-button">
+                    Continue Shopping
+                </button>
+            </div>
+        );
     }
 
     return (
@@ -21,9 +50,15 @@ function FavoritesPage({ products }) {
                     <h2>{product.name}</h2>
                     <p>{product.description}</p>
                     <p className="price">${product.price}</p>
-                    <button onClick={() => addToCart(product)}>Add to Cart</button>
+                    <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+                    <button onClick={() => removeFromFavorites(product._id)} className="remove-favorite-button">
+                        Remove from Favorites
+                    </button>
                 </div>
             ))}
+            <button onClick={handleContinueShopping} className="continue-shopping-button">
+                Continue Shopping
+            </button>
         </div>
     );
 }

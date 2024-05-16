@@ -1,11 +1,11 @@
 import React from 'react';
-import { useCart } from './CartContext';  
-import { useNavigate } from 'react-router-dom';  
-import './Cart.less'; 
+import { useCart } from '../Cart/CartContext';
+import { useNavigate } from 'react-router-dom';
+import './Cart.less';
 
 function CartPage() {
-    const { cart } = useCart();
-    const navigate = useNavigate(); 
+    const { cart, removeFromCart } = useCart();
+    const navigate = useNavigate();
 
     const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
@@ -14,7 +14,7 @@ function CartPage() {
             <div className="cart-container">
                 <p>Your cart is empty.</p>
                 <div className="cart-footer">
-                    <button onClick={() => navigate('/')}>Back to Home</button>
+                    <button onClick={() => navigate(-1)}>Back to shopping</button>
                 </div>
             </div>
         );
@@ -32,11 +32,12 @@ function CartPage() {
                         <p>Price: ${product.price}</p>
                         <p>Quantity: {quantity}</p>
                         <p>Total: ${product.price * quantity}</p>
+                        <button onClick={() => removeFromCart(product._id)} className="remove-cart-button">Remove from Cart</button>
                     </div>
                 </div>
             ))}
             <div className="cart-footer">
-                <button onClick={() => navigate('/')}>Back to Home</button>
+                <button onClick={() => navigate(-1)}>Back to shopping</button>
                 <span className="total-price">Total: ${totalPrice.toFixed(2)}</span>
                 <button className="checkout-button" onClick={() => navigate('/checkout')}>Checkout</button>
             </div>

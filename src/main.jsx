@@ -20,6 +20,45 @@ import "./index.css";
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
+function App() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+      const fetchProducts = async () => {
+          try {
+              const response = await axios.get('http://localhost:5000/api/products');
+              setProducts(response.data);
+          } catch (error) {
+              console.error('Failed to fetch products:', error);
+          }
+      };
+      fetchProducts();
+  }, []);
+
+  return (
+      <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/favorites" element={<FavoritesPage products={products} />} />
+          <Route path="/usershop" element={<div>usershop tab</div>} />
+          <Route path="/about" element={<div>About Frontend</div>} />
+          <Route path="/daily_offers" element={<div>The daily offers</div>} />
+          <Route path="/support" element={<div>SUPPORT</div>} />
+          <Route path="/account" element={<div>If you're logged in, otherwise create an account</div>} />
+          <Route path="/account/register" element={<Register />} />
+          <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login/forgot_password" element={<div>Nu avem ce face:)</div>} />
+          <Route path="/items" element={<ItemList />} />
+          <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/add-item" element={<ItemForm />} />
+          <Route path="/products" element={<DisplayProducts products={products} setProducts={setProducts} />} />
+          <Route path="/404" element={<div>404 Not Found</div>} />
+          <Route path="*" element={<div>404 Not Found</div>} />
+      </Routes>
+  );
+}
+
 root.render(
   <React.StrictMode>
     <AuthProvider>

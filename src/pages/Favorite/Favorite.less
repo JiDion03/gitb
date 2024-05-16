@@ -1,13 +1,75 @@
 .favorites-container {
+    background-color: #f9f9f9;
+    border-radius: 8px;
     padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .product-card {
-    margin: 10px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    img {
+        width: 100px;
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    h2, p {
+        margin: 5px 0;
+        color: #333;
+    }
+
+    .price {
+        color: #888;
+        font-weight: bold;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+    .remove-favorite-button {
+        background-color: #dc3545;
+        margin-top: 10px;
+
+        &:hover {
+            background-color: #c82333;
+        }
+    }
+}
+
+.continue-shopping-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+
+    &:hover {
+        background-color: #218838;
+    }
 }

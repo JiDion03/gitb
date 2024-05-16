@@ -1,15 +1,20 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from './navbar/Navbar';
-import { Link } from 'react-router-dom';
 import Button from './button/Button';
 import { useAuth } from '../pages/login/AuthContext';
+import SearchBar from './SearchBar/SearchBar';
 
 const Layout = ({ children }) => {
   const { auth, setAuth } = useAuth();
+  const location = useLocation();
 
   const handleLogout = () => {
     setAuth({ isLoggedIn: false, user: null });
   };
+
+  // Check if the current path matches the profile page pattern
+  const isProfilePage = location.pathname.startsWith('/profile');
 
   return (
     <div>
@@ -22,8 +27,9 @@ const Layout = ({ children }) => {
             <Button className="header-button">Offers</Button>
           </Link>
         </div>
+        <SearchBar />
         <div className="button-group">
-          {auth.isLoggedIn && auth.user.id ? (
+          {auth.isLoggedIn && auth.user?.id ? (
             <div className="dropdown">
               <Button className="header-button">My Account</Button>
               <div className="dropdown-content">
@@ -39,7 +45,7 @@ const Layout = ({ children }) => {
           )}
         </div>
       </div>
-      <Navbar />
+      {!isProfilePage && <Navbar />}
       {children}
     </div>
   );

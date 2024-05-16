@@ -11,7 +11,6 @@ export const CartProvider = ({ children }) => {
         setCart(prevCart => {
             const existingIndex = prevCart.findIndex(item => item.product._id === product._id);
             if (existingIndex >= 0) {
-              
                 const newCart = [...prevCart];
                 newCart[existingIndex] = {
                     ...newCart[existingIndex],
@@ -19,19 +18,21 @@ export const CartProvider = ({ children }) => {
                 };
                 return newCart;
             } else {
-            
                 return [...prevCart, { product, quantity: 1 }];
             }
         });
     };
 
-    
+    const removeFromCart = (productId) => {
+        setCart(prevCart => prevCart.filter(item => item.product._id !== productId));
+    };
+
     useEffect(() => {
-        console.log("Cart after adding:", cart);
-    }, [cart]); 
+        console.log("Cart after update:", cart);
+    }, [cart]);
 
     return (
-        <CartContext.Provider value={{ cart, addToCart }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
             {children}
         </CartContext.Provider>
     );
