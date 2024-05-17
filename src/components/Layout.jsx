@@ -13,11 +13,26 @@ const Layout = ({ children }) => {
     setAuth({ isLoggedIn: false, user: null });
   };
 
-  // Check if the current path matches the profile page pattern
-  const isProfilePage = location.pathname.startsWith('/profile');
+  // Check if the current path matches the profile or favorites page pattern
+  const isProfileOrFavoritesPage = 
+    location.pathname.startsWith('/profile') ||
+    location.pathname.startsWith('/favorites');
+    
+
+  // Check if the current path matches the cart page pattern
+  const isCartPage = location.pathname.startsWith('/cart');
+
+  // Check if the current path matches the product page pattern
+  const isProductPage = location.pathname.startsWith('/product')||
+  location.pathname.startsWith('/add-product');
+  const layoutStyles = isProfileOrFavoritesPage
+    ? { paddingTop: '15vh', paddingLeft: '15vw', boxSizing: 'border-box' }
+    : isCartPage || isProductPage
+    ? { paddingTop: '15vh' }
+    : {};
 
   return (
-    <div>
+    <div style={layoutStyles}>
       <div className="top-bar">
         <div className="left-button-group">
           <Link to="/products" className="header-button-link">
@@ -45,7 +60,7 @@ const Layout = ({ children }) => {
           )}
         </div>
       </div>
-      {!isProfilePage && <Navbar />}
+      {(!isProfileOrFavoritesPage && !isCartPage) && <Navbar />}
       {children}
     </div>
   );

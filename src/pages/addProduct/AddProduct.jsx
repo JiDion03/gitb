@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AddProduct.less'; 
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../login/AuthContext';
+import './AddProduct.less'
 
 const categories = {
   "Laptop, Tablete, Telefoane": [
@@ -105,8 +107,8 @@ const categories = {
   ]
 };
 
-
 function AddProduct() {
+  const { auth } = useAuth(); // Get the auth context to access the token
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -141,7 +143,10 @@ function AddProduct() {
 
     try {
       const response = await axios.post('http://localhost:5000/api/products/add', data, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'x-auth-token': auth.token // Include the token in the request headers
+        }
       });
       alert('Product added successfully!');
       console.log(response.data);
@@ -152,7 +157,7 @@ function AddProduct() {
   };
 
   return (
-    <div className="add-product-form"> {}
+    <div className="add-product-form">
       <form onSubmit={handleSubmit}>
         <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
         <textarea name="description" value={formData.description} onChange={handleInputChange} required />

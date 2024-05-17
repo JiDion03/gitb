@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
 import './DisplayProduct.less';
 
@@ -9,19 +10,18 @@ function DisplayProducts({ products, setProducts }) {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (!products || products.length === 0) {
-            const fetchProducts = async () => {
-                try {
-                    const response = await axios.get('http://localhost:5000/api/products');
-                    setProducts(response.data);
-                } catch (error) {
-                    setError('Failed to fetch products');
-                    console.error('Error:', error);
-                }
-            };
-            fetchProducts();
-        }
-    }, [products, setProducts]);
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/products');
+                setProducts(response.data);
+            } catch (error) {
+                setError('Failed to fetch products');
+                console.error('Error:', error);
+            }
+        };
+
+        fetchProducts();
+    }, [setProducts]);
 
     const toggleFavorite = (product) => {
         let updatedFavorites;
@@ -51,8 +51,10 @@ function DisplayProducts({ products, setProducts }) {
         <div className="products-container">
             {products.map(product => (
                 <div key={product._id} className="product-card">
-                    <img src={`http://localhost:5000/uploads/${product.images[0]}`} alt={product.name} style={{ width: "100%", height: "auto" }} />
-                    <h2>{product.name}</h2>
+                    <Link to={`/product/${product._id}`}>
+                        <img src={`http://localhost:5000/${product.images[0]}`} alt={product.name} style={{ width: "100%", height: "auto" }} />
+                        <h2>{product.name}</h2>
+                    </Link>
                     <p>{product.description}</p>
                     <p className="price">${product.price}</p>
                     <p className="category">{product.category} - {product.subcategory}</p>

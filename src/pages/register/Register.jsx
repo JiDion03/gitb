@@ -16,6 +16,7 @@ const Register = () => {
     });
 
     const [error, setError] = useState(""); 
+    const [success, setSuccess] = useState(""); 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -26,21 +27,22 @@ const Register = () => {
     const register = async (e) => {
         e.preventDefault();
         const { password, confirmPassword } = user;
-    
-        console.log("Attempting to register with:", user);  
-    
+
         if (password !== confirmPassword) {
             setError("Passwords do not match!");
             return;
         }
-    
+
         try {
+            console.log('Registering user:', user);
             const response = await axios.post('http://localhost:5000/api/users', user);
             console.log('User created:', response.data);
-            navigate('/');
+            setSuccess('Registration successful! Please check your email to verify your account.');
+            setError('');
         } catch (error) {
             console.error('Error creating user:', error);
-            setError('Failed to register, please check your credentials and try again.');
+            setError(error.response?.data?.message || 'Failed to register, please check your credentials and try again.');
+            setSuccess('');
         }
     };
     
@@ -48,6 +50,7 @@ const Register = () => {
         <div className="register-container">
             <div className="register-heading">Create a new account</div>
             {error && <div className="error-message">{error}</div>}
+            {success && <div className="success-message">{success}</div>}
             <div className="register-form">
                 <form autoComplete="off" onSubmit={register}>
                     <TextInput label="First Name" name="firstName" value={user.firstName} onChange={handleChange} />

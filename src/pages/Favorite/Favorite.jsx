@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
-import { useNavigate } from 'react-router-dom';
+import Navbar from "../../components/navbar/Navbar";
 import './Favorite.less';
 
 function FavoritesPage({ products }) {
     const { addToCart } = useCart();
     const navigate = useNavigate();
-    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || []);
+    const location = useLocation();
+    const [favorites, setFavorites] = useState([]);
+
+    // Check if the current path matches the profile, favorites, or cart page pattern
+    const isSpecialPage = 
+        location.pathname.startsWith('/profile') ||
+        location.pathname.startsWith('/favorites') ||
+        location.pathname.startsWith('/cart');
+
+    const pageStyles = isSpecialPage
+        ? { paddingTop: '15vh', paddingRight: '15vw', boxSizing: 'border-box' }
+        : {};
 
     useEffect(() => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -27,12 +39,13 @@ function FavoritesPage({ products }) {
     };
 
     const handleContinueShopping = () => {
-        navigate(-1); 
+        navigate(-1);
     };
 
     if (favoriteProducts.length === 0) {
         return (
-            <div className="favorites-container">
+            <div className="favorites-container" style={pageStyles}>
+                <Navbar />
                 <p>No favorites added.</p>
                 <button onClick={handleContinueShopping} className="continue-shopping-button">
                     Continue Shopping
@@ -42,7 +55,8 @@ function FavoritesPage({ products }) {
     }
 
     return (
-        <div className="favorites-container">
+        <div className="favorites-container" style={pageStyles}>
+            <Navbar />
             <h2>Your Favorites</h2>
             {favoriteProducts.map(product => (
                 <div key={product._id} className="product-card">

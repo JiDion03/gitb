@@ -1,13 +1,15 @@
+// src/pages/ProductDetails/ProductDetails.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import './ProductDetails.less'; // Make sure the path matches your structure
 import { useCart } from '../Cart/CartContext';
-import './Product.less'; // Make sure the path matches your structure
 
-function Product() {
+function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const { addToCart } = useCart();
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || []);
 
@@ -16,8 +18,9 @@ function Product() {
       try {
         const response = await axios.get(`http://localhost:5000/api/products/${productId}`);
         setProduct(response.data);
-      } catch (error) {
-        console.error('Error fetching product:', error);
+      } catch (err) {
+        setError('Error fetching product details');
+        console.error('Error:', err);
       } finally {
         setLoading(false);
       }
@@ -43,26 +46,32 @@ function Product() {
   };
 
   if (loading) {
-    return <div>Loading product...</div>;
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   if (!product) {
-    return <div>Product not found.</div>;
+    return <div>No product found</div>;
   }
 
   return (
-    <div className="product-page">
-      <div className="product-details">
-        <img src={`http://localhost:5000/uploads/${product.images[0].split('\\').pop()}`} alt={product.name} className="product-image" />
+    <div className="product-details">
+      <h1>{product.name}</h1>
+      <div className="product-details-container">
+        <div className="product-image">
+          <img src={`http://localhost:5000/${product.images[0]}`} alt={product.name} />
+        </div>
         <div className="product-info">
-          <h1>{product.name}</h1>
-          <p className="price">${product.price}</p>
-          <p>{product.description}</p>
-          <div className="button-group">
-            <button onClick={handleAddToCart}>Add to Cart</button>
+          <p className="product-description">{product.description}</p>
+          <p className="product-price">${product.price}</p>
+          <div className="product-actions">
+            <button className="add-to-cart" onClick={handleAddToCart}>Add to Cart</button>
             <button 
-              onClick={toggleFavorite} 
-              className={favorites.includes(product._id) ? 'favorite-button active' : 'favorite-button'}
+              className={favorites.includes(product._id) ? 'add-to-favorites active' : 'add-to-favorites'}
+              onClick={toggleFavorite}
             >
               {favorites.includes(product._id) ? 'Remove from Favorites' : 'Add to Favorites'}
             </button>
@@ -73,4 +82,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default ProductDetails;

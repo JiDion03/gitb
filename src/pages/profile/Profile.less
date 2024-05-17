@@ -6,103 +6,152 @@
 @button-hover-background: darken(@button-background, 10%);
 
 .profile-container {
-    display: flex;
-    flex-direction: row; 
-    align-items: flex-start;
-    height: 100vh;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100%;
+  background-color: @background-color;
+  color: @text-color;
+
+  .profile-content {
+    flex-grow: 1;
+    padding: 20px;
+
+    .welcome-message {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: @text-color;
+    }
+
+    .user-products {
+      .products-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: @background-color;
+
+        .product-card {
+          background-color: #fff;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s, box-shadow 0.2s;
+          padding: 10px;
+          border-radius: 8px;
+          text-align: center;
+
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+          }
+
+          .product-image {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+          }
+
+          .product-info {
+            h3,
+            p {
+              margin: 10px 0;
+              color: #333;
+            }
+
+            .price {
+              color: #888;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .menu {
+    width: 200px;
     background-color: @background-color;
     color: @text-color;
-   
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
 
-    .profile-content {
-        flex-grow: 1;
-        padding: 20px;
+    ol {
+      list-style: none;
+      padding: 0;
 
-        .welcome-message {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #f0f0f0;
+      li {
+        padding: 10px;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: @button-hover-background;
         }
-    }
 
-    .menu {
-        width: 200px;
-        background-color: @background-color;
-        color: @text-color;
-        padding: 20px;
-        height: 100%;
-        overflow-y: auto;
-
-        ol {
-            list-style: none;
-            padding: 0;
-
-            li {
-                padding: 10px;
-                transition: background-color 0.3s;
-
-                &:hover {
-                    background-color: @button-hover-background;
-                }
-
-                a {
-                    color: @text-color;
-                    text-decoration: none;
-                }
-            }
+        a {
+          color: @text-color;
+          text-decoration: none;
         }
+      }
     }
+  }
 }
 
 /* Add this part from home.less */
 .top-bar {
-    background-color: rgba(0, 0, 0, 0.971);
+  background-color: rgba(0, 0, 0, 0.971);
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(170, 10, 184, 0.2);
+  justify-content: space-between;
+
+  .left-button-group,
+  .center-container,
+  .button-group {
     display: flex;
     align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0; 
-    padding: 10px 20px;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(170, 10, 184, 0.2);
-    justify-content: space-between;
-    
-    .left-button-group, .center-container, .button-group {
-      display: flex;
-      align-items: center;
-    }
+  }
 
-    .left-button-group {
-      flex: 1; 
-      justify-content: flex-start; 
-      gap: 10px; 
-    }
+  .left-button-group {
+    flex: 1;
+    justify-content: flex-start;
+    gap: 10px;
+  }
 
-    .center-container {
-      flex: 2;
-      justify-content: center;
-    }
+  .center-container {
+    flex: 2;
+    justify-content: center;
+  }
 
-    .button-group {
-      flex: 1; 
-      gap: 10px;
-      justify-content: flex-end;
-    }
-  
-    .header-button, .header-button:link, .header-button:visited {
-      padding: 8px 16px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none; 
-      display: inline-block; 
+  .button-group {
+    flex: 1;
+    gap: 10px;
+    justify-content: flex-end;
+  }
 
-      &:hover {
-        background-color: #0056b3;
-      }
+  .header-button,
+  .header-button:link,
+  .header-button:visited {
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+
+    &:hover {
+      background-color: #0056b3;
     }
+  }
 }
