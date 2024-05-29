@@ -1,77 +1,95 @@
-// pages/profile/DistributorProfile.jsx
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import Sidebar from './Sidebar'; 
-import './Profile.less';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link, Routes, Route, useLocation } from "react-router-dom";
+import ListedItems from "./ListedItems";
+import DistributorOrders from "./DistributorOrders";
+import Stats from "./Stats";
+import "./DistributorProfile.less";
 
-function DistributorProfile() {
-    const { userId } = useParams();  
-    const [user, setUser] = useState(null);
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+const DistributorProfile = ({ userId }) => {
+  const location = useLocation();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        console.log(`Fetching data for user ID: ${userId}`);
-        const fetchData = async () => {
-            if (!userId) {
-                console.log("User ID is undefined or not provided.");
-                setLoading(false);
-                return;
-            }
-            try {
-                const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
-                console.log("User response data:", userResponse.data);  
-                setUser(userResponse.data);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${userId}`
+        );
+        console.log("Fetched user data:", response.data); // Log the fetched user data
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setError("Error fetching user data");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                const productsResponse = await axios.get(`http://localhost:5000/api/users/distributor/${userId}/products`);
-                console.log("Products response data:", productsResponse.data);
-                setProducts(productsResponse.data);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [userId]);
-
-    if (loading) {
-        return <div>Loading...</div>;
+    if (userId) {
+      fetchUser();
+    } else {
+      setLoading(false);
+      setError("User ID is missing");
     }
+  }, [userId]);
 
-    if (!user) {
-        return <div>No user data found.</div>;
-    }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
-    return (
-        <div className="profile-container">
-            <Sidebar />
-            <div className="profile-content">
-                <div className="welcome-message">
-                    Welcome back, {user.firstName} {user.lastName}, what are you up to?
-                </div>
-                <div className="distributor-products">
-                    <h2>Products Listed</h2>
-                    {products.length === 0 ? (
-                        <p>No products listed.</p>
-                    ) : (
-                        <div className="product-list">
-                            {products.map(product => (
-                                <div key={product._id} className="product-card">
-                                    <img src={`http://localhost:5000/uploads/${product.images[0]}`} alt={product.name} style={{ width: "100%", height: "auto" }} />
-                                    <h2>{product.name}</h2>
-                                    <p>{product.description}</p>
-                                    <p className="price">${product.price}</p>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-}
+  return (
+    <div className="profile-container">
+      <div className="profile-content">
+        <h1 className="negro">Distributor Profile</h1>
+        <Routes>
+          <Route
+            path="listed-items"
+            element={<ListedItems userId={userId} />}
+          />
+          <Route
+            path="orders"
+            element={<DistributorOrders userId={userId} />}
+          />
+          <Route path="stats" element={<Stats userId={userId} />} />
+          <Route path="/" element={<ListedItems userId={userId} />} />{" "}
+          {/* Default Route */}
+        </Routes>
+      </div>
+      <div className="menu">
+        <ol>
+          <li
+            className={
+              location.pathname === `/distributor/${userId}/listed-items`
+                ? "active"
+                : ""
+            }
+          >
+            <Link to={`/distributor/${userId}/listed-items`}>Listed Items</Link>
+          </li>
+          <li
+            className={
+              location.pathname === `/distributor/${userId}/orders`
+                ? "active"
+                : ""
+            }
+          >
+            <Link to={`/distributor/${userId}/orders`}>Orders</Link>
+          </li>
+          <li
+            className={
+              location.pathname === `/distributor/${userId}/stats`
+                ? "active"
+                : ""
+            }
+          >
+            <Link to={`/distributor/${userId}/stats`}>Statistics</Link>
+          </li>
+        </ol>
+      </div>
+    </div>
+  );
+};
 
 export default DistributorProfile;

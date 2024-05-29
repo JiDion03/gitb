@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Navbar from './navbar/Navbar';
-import Button from './button/Button';
-import { useAuth } from '../pages/login/AuthContext';
-import SearchBar from './SearchBar/SearchBar';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import Navbar from "./navbar/Navbar";
+import Button from "./button/Button";
+import { useAuth } from "../pages/login/AuthContext";
+import SearchBar from "./SearchBar/SearchBar";
 
 const Layout = ({ children }) => {
   const { auth, setAuth } = useAuth();
@@ -13,22 +13,24 @@ const Layout = ({ children }) => {
     setAuth({ isLoggedIn: false, user: null });
   };
 
-  // Check if the current path matches the profile or favorites page pattern
-  const isProfileOrFavoritesPage = 
-    location.pathname.startsWith('/profile') ||
-    location.pathname.startsWith('/favorites');
-    
+  const isProfileOrFavoritesPage =
+    location.pathname.startsWith("/profile") ||
+    location.pathname.startsWith("/favorites");
 
-  // Check if the current path matches the cart page pattern
-  const isCartPage = location.pathname.startsWith('/cart');
+  const isCartPage = location.pathname.startsWith("/cart");
+  const isProductPage =
+    location.pathname.startsWith("/product") ||
+    location.pathname.startsWith("/add-product");
 
-  // Check if the current path matches the product page pattern
-  const isProductPage = location.pathname.startsWith('/product')||
-  location.pathname.startsWith('/add-product');
+  const isDistributorProfilePage =
+    auth.user?.role === "distributor" &&
+    (location.pathname.startsWith("/distributor") ||
+      location.pathname.startsWith("/profile"));
+
   const layoutStyles = isProfileOrFavoritesPage
-    ? { paddingTop: '15vh', paddingLeft: '15vw', boxSizing: 'border-box' }
+    ? { paddingTop: "15vh", paddingLeft: "15vw", boxSizing: "border-box" }
     : isCartPage || isProductPage
-    ? { paddingTop: '15vh' }
+    ? { paddingTop: "15vh" }
     : {};
 
   return (
@@ -38,9 +40,6 @@ const Layout = ({ children }) => {
           <Link to="/products" className="header-button-link">
             <Button className="header-button">Products</Button>
           </Link>
-          <Link to="/offers" className="header-button-link">
-            <Button className="header-button">Offers</Button>
-          </Link>
         </div>
         <SearchBar />
         <div className="button-group">
@@ -49,8 +48,9 @@ const Layout = ({ children }) => {
               <Button className="header-button">My Account</Button>
               <div className="dropdown-content">
                 <Link to={`/profile/${auth.user.id}`}>View Profile</Link>
-                <Link to="/settings">Settings</Link>
-                <Link to="/" onClick={handleLogout}>Logout</Link>
+                <Link to="/" onClick={handleLogout}>
+                  Logout
+                </Link>
               </div>
             </div>
           ) : (
@@ -60,7 +60,9 @@ const Layout = ({ children }) => {
           )}
         </div>
       </div>
-      {(!isProfileOrFavoritesPage && !isCartPage) && <Navbar />}
+      {!isDistributorProfilePage &&
+        !isProfileOrFavoritesPage &&
+        !isCartPage && <Navbar />}
       {children}
     </div>
   );

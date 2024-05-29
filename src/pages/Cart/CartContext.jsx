@@ -5,10 +5,10 @@ const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
 
     const addToCart = (product) => {
-        setCart(prevCart => {
+        setCartItems(prevCart => {
             const existingIndex = prevCart.findIndex(item => item.product._id === product._id);
             if (existingIndex >= 0) {
                 const newCart = [...prevCart];
@@ -24,15 +24,19 @@ export const CartProvider = ({ children }) => {
     };
 
     const removeFromCart = (productId) => {
-        setCart(prevCart => prevCart.filter(item => item.product._id !== productId));
+        setCartItems(prevCart => prevCart.filter(item => item.product._id !== productId));
+    };
+
+    const clearCart = () => {
+        setCartItems([]);
     };
 
     useEffect(() => {
-        console.log("Cart after update:", cart);
-    }, [cart]);
+        console.log("Cart after update:", cartItems);
+    }, [cartItems]);
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
             {children}
         </CartContext.Provider>
     );

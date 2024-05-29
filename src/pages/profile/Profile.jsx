@@ -1,79 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import './Profile.less';
-import Button from '../../components/button/Button';
+import React from "react";
+import { Link, Routes, Route, useLocation, useParams } from "react-router-dom";
+import Orders from "./Orders";
+import CartPage from "../Cart/Cart";
+import FavoritesPage from "../Favorite/Favorite";
+import "./Profile.less";
 
-function Profile() {
+const Profile = ({ user }) => {
+  const location = useLocation();
   const { userId } = useParams();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!userId) {
-        setLoading(false);
-        return;
-      }
-      try {
-        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
-        setUser(userResponse.data);
-
-        const productsResponse = await axios.get(`http://localhost:5000/api/products/user/${userId}`);
-        setProducts(productsResponse.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [userId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return <div>No user data found.</div>;
-  }
+  if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="profile-container">
-      <Sidebar />
-      <div className="profile-content">
-        <div className="welcome-message">
-          Welcome back, {user.firstName} {user.lastName}, what are you up to?
+    <div className="profile-container123">
+      <div className="menu">
+        <ol>
+          <li
+            className={
+              location.pathname === `/profile/${userId}/orders` ? "active" : ""
+            }
+          >
+            <Link to={`/profile/${userId}/orders`}>Orders</Link>
+          </li>
+          <li className={location.pathname === `/cart` ? "active" : ""}>
+            <Link to={`/cart`}>Cart</Link>
+          </li>
+          <li className={location.pathname === `/favorites` ? "active" : ""}>
+            <Link to={`/favorites`}>Favorites</Link>
+          </li>
+        </ol>
+      </div>
+      <div className="profile-content123">
+        <div className="profile-details123">
+          <h1>My Account</h1>
+          <p>
+            <strong>Name:</strong> {user.firstName} {user.lastName}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+          <p>
+            <strong>Phone:</strong> {user.phoneNumber}
+          </p>
+          {/* Add other user data fields here if needed */}
         </div>
-        <div className="user-products">
-          <h2>Your Products</h2>
-          {products.length > 0 ? (
-            <div className="products-container">
-              {products.map(product => (
-                <div key={product._id} className="product-card">
-                  <img
-                    src={`http://localhost:5000/${product.images[0]}`}
-                    alt={product.name}
-                    className="product-image"
-                  />
-                  <div className="product-info">
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    <p className="price">${product.price}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>You have not added any products yet.</p>
-          )}
-        </div>
+        <Routes>
+          <Route path="orders/*" element={<Orders userId={user.id} />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="favorites" element={<FavoritesPage />} />
+        </Routes>
       </div>
     </div>
   );
-}
+};
 
 export default Profile;

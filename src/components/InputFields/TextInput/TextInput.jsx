@@ -1,11 +1,12 @@
 import React from 'react';
+import './TextInput.less';
 
-const TextInput = ({ label, value, name, onChange, placeholder }) => {
+const TextInput = ({ label, value, name, onChange, placeholder, type = "text" }) => {
   return (
     <div className="text-input-field">
       <label htmlFor={name}>{label}</label>
       <input
-        type="text"
+        type={type}
         id={name}
         name={name}
         value={value}

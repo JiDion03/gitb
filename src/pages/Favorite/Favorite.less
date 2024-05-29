@@ -1,75 +1,128 @@
+@GAP: 15px;
+@WHITE: #fbfbfb;
+@BLACK: #333333;
+@COLOR1: #fda085;
+@COLOR2: #bff098;
+@COLOR3: #ea8d8d;
+@COLOR4: #d8b5ff;
+@COLOR5: #c6ea8d;
+@COLOR6: #ff758c;
+@COLOR7: #868f96;
+@COLOR8: #c79081;
+@COLOR9: #8baaaa;
+@COLOR10: #60b347;
+@COLOR11: #4ca1af;
+
 .favorites-container {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .product-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  width: 100%; // Ensures the card does not expand to the full width of the container
 
-    &:last-child {
-        border-bottom: none;
-    }
+  &:last-child {
+    border-bottom: none;
+  }
 
-    img {
-        width: 100px;
-        height: auto;
-        margin-bottom: 15px;
-    }
+  img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+  }
 
-    h2, p {
-        margin: 5px 0;
-        color: #333;
-    }
+  h2,
+  p {
+    margin: 5px 0;
+    color: #333;
+  }
 
-    .price {
-        color: #888;
-        font-weight: bold;
-    }
+  .price {
+    color: #888;
+    font-weight: bold;
+  }
 
-    button {
-        padding: 10px 20px;
-        margin-top: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-
-        &:hover {
-            background-color: #0056b3;
-        }
-    }
-
-    .remove-favorite-button {
-        background-color: #dc3545;
-        margin-top: 10px;
-
-        &:hover {
-            background-color: #c82333;
-        }
-    }
-}
-
-.continue-shopping-button {
-    background-color: #28a745;
-    color: white;
+  button {
     padding: 10px 20px;
-    margin-top: 20px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
 
     &:hover {
-        background-color: #218838;
+      background-color: #0056b3;
     }
+  }
+
+  .remove-favorite-button {
+    background-color: #dc3545;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+}
+
+.continue-shopping-button {
+  background-color: #007bff;
+  align-self: flex-start;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.no-fav-mes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  text-align: center;
+  color: black;
+  font-size: 22px;
+}
+
+.text-favorite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  text-align: center;
+  color: black;
+  font-size: 22px;
+  position: relative;
+
+  &:after {
+    content: "";
+    display: block;
+    width: calc(100% - 30px); // Full width minus the gaps on each side
+    height: 2px; // Thickness of the line
+    background: @COLOR7;
+    position: absolute;
+    bottom: -10px; // Adjust this to position the line
+    left: @GAP;
+  }
 }

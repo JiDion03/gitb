@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 import Button from "../../components/button/Button";
 import TextInput from "../../components/InputFields/TextInput/TextInput";
 import './register.less';
@@ -12,11 +12,12 @@ const Register = () => {
         email: "",
         phoneNumber: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        role: "user"
     });
 
-    const [error, setError] = useState(""); 
-    const [success, setSuccess] = useState(""); 
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -40,12 +41,11 @@ const Register = () => {
             setSuccess('Registration successful! Please check your email to verify your account.');
             setError('');
         } catch (error) {
-            console.error('Error creating user:', error);
             setError(error.response?.data?.message || 'Failed to register, please check your credentials and try again.');
             setSuccess('');
         }
     };
-    
+
     return (
         <div className="register-container">
             <div className="register-heading">Create a new account</div>
@@ -59,6 +59,16 @@ const Register = () => {
                     <TextInput label="Phone Number" name="phoneNumber" value={user.phoneNumber} onChange={handleChange} />
                     <TextInput label="Password" name="password" type="password" value={user.password} onChange={handleChange} />
                     <TextInput label="Confirm Password" name="confirmPassword" type="password" value={user.confirmPassword} onChange={handleChange} />
+                    <div className="role-selection">
+                        <label>
+                            <input type="radio" name="role" value="user" checked={user.role === 'user'} onChange={handleChange} />
+                            User
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="distributor" checked={user.role === 'distributor'} onChange={handleChange} />
+                            Distributor
+                        </label>
+                    </div>
                     <div className="button-container">
                         <Button type="submit">Register</Button>
                     </div>

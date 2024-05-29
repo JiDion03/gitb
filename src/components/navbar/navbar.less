@@ -1,42 +1,40 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round');
-
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
 
 @GAP: 15px;
-@WHITE: #FBFBFB;
+@WHITE: #fbfbfb;
 @BLACK: #333333;
-@COLOR1: #FDA085; @COLOR1g: #F6D365;
-@COLOR2: #BFF098; @COLOR2g: #6FD6FF;
-@COLOR3: #EA8D8D; @COLOR3g: #A890FE;
-@COLOR4: #D8B5FF; @COLOR4g: #1EAE98;
-@COLOR5: #C6EA8D; @COLOR5g: #FE90AF;
-@COLOR6: #ff758c; @COLOR6g: #ff7eb3;
-@COLOR7: #868f96; @COLOR7g: #596164;
-@COLOR8: #c79081; @COLOR8g: #dfa579;
-@COLOR9: #8baaaa; @COLOR9g: #ae8b9c;
-@COLOR10: #60b347; @COLOR10g: #d2ce56;
-@COLOR11: #4ca1af; @COLOR11g: #c4e0e5;
-
+@COLOR1: #fda085;
+@COLOR2: #bff098;
+@COLOR3: #ea8d8d;
+@COLOR4: #d8b5ff;
+@COLOR5: #c6ea8d;
+@COLOR6: #ff758c;
+@COLOR7: #868f96;
+@COLOR8: #c79081;
+@COLOR9: #8baaaa;
+@COLOR10: #60b347;
+@COLOR11: #4ca1af;
 
 * {
   box-sizing: border-box;
 }
+
 body {
   background: @BLACK;
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
   margin: 0;
   padding: 0;
   color: @WHITE;
 }
 
-
 .menu {
   position: fixed;
   top: 8%;
   left: 0;
-  width: 200px; 
+  width: 200px;
   height: 100vh;
   background-color: @BLACK;
-  overflow-y: auto; 
+  overflow-y: auto;
   padding: @GAP;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 
@@ -56,52 +54,98 @@ body {
         text-decoration: none;
         display: block;
       }
-      &:nth-child(1) { &:hover { background: linear-gradient(to right, @COLOR1, @COLOR1g); } }
-      &:nth-child(2) { &:hover { background: linear-gradient(to right, @COLOR2, @COLOR2g); } }
-      &:nth-child(3) { &:hover { background: linear-gradient(to right, @COLOR3, @COLOR3g); } }
-      &:nth-child(4) { &:hover { background: linear-gradient(to right, @COLOR4, @COLOR4g); } }
-      &:nth-child(5) { &:hover { background: linear-gradient(to right, @COLOR5, @COLOR5g); } }
-      &:nth-child(6) { &:hover { background: linear-gradient(to right, @COLOR6, @COLOR6g); } }
-      &:nth-child(7) { &:hover { background: linear-gradient(to right, @COLOR7, @COLOR7g); } }
-      &:nth-child(8) { &:hover { background: linear-gradient(to right, @COLOR8, @COLOR8g); } }
-      &:nth-child(9) { &:hover { background: linear-gradient(to right, @COLOR9, @COLOR9g); } }
-      &:nth-child(10) { &:hover { background: linear-gradient(to right, @COLOR10, @COLOR10g); } }
-      &:nth-child(11) { &:hover { background: linear-gradient(to right, @COLOR11, @COLOR11g); } }
-    }
-
-      &:hover, &:focus, &:focus-within {
-        background: linear-gradient(to right, @COLOR1, @COLOR1g);
+      &:nth-child(1) {
+        &:hover {
+          background: @COLOR1;
+        }
+      }
+      &:nth-child(2) {
+        &:hover {
+          background: @COLOR2;
+        }
+      }
+      &:nth-child(3) {
+        &:hover {
+          background: @COLOR3;
+        }
+      }
+      &:nth-child(4) {
+        &:hover {
+          background: @COLOR4;
+        }
+      }
+      &:nth-child(5) {
+        &:hover {
+          background: @COLOR5;
+        }
+      }
+      &:nth-child(6) {
+        &:hover {
+          background: @COLOR6;
+        }
+      }
+      &:nth-child(7) {
+        &:hover {
+          background: @COLOR7;
+        }
+      }
+      &:nth-child(8) {
+        &:hover {
+          background: @COLOR8;
+        }
+      }
+      &:nth-child(9) {
+        &:hover {
+          background: @COLOR9;
+        }
+      }
+      &:nth-child(10) {
+        &:hover {
+          background: @COLOR10;
+        }
+      }
+      &:nth-child(11) {
+        &:hover {
+          background: @COLOR11;
+        }
       }
     }
 
-    .sub-menu {
-      display: none;
-      padding-left: @GAP;
+    &:hover,
+    &:focus,
+    &:focus-within {
+      background: @COLOR1;
+    }
+  }
 
-      li {
-        font-size: 0.9em;
+  .sub-menu {
+    display: none;
+    padding-left: @GAP;
 
-        &:hover, a:focus {
-          background: fade(darken(@WHITE, 75%), 30%);
-        }
+    li {
+      font-size: 0.9em;
 
-        a {
-          &:after {
-            content: '';
-            display: block;
-            height: 2px;
-            background: @WHITE;
-            margin: 5px 0 0;
-          }
+      &:hover,
+      a:focus {
+        background: fade(darken(@WHITE, 75%), 30%);
+      }
+
+      a {
+        &:after {
+          content: "";
+          display: block;
+          height: 2px;
+          background: @WHITE;
+          margin: 5px 0 0;
         }
       }
     }
   }
-
+}
 
 .menu-item:hover > .sub-menu,
 .menu-item:focus-within > .sub-menu {
-  display: block; 
+  display: block;
 }
 
 @media (min-width: 600px) {

@@ -1,25 +1,26 @@
-@import "../navbar/navbar.less"; 
+@import "../navbar/navbar.less";
 
 .custom-button {
-    padding: 10px 20px;
-    background: linear-gradient(to right, @COLOR1, @COLOR1g);
-    color: @WHITE;
-    border: none;
-    border-radius: 5px;
-    font-family: "Varela Round", sans-serif;
-    font-size: 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    align-self: center;
+  padding: 10px 20px;
+  background: @COLOR1;
+  color: @WHITE;
+  border: none;
+  border-radius: 5px;
+  font-family: "Varela Round", sans-serif;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  align-self: center;
 
-    &:hover, &:focus {
-        background: linear-gradient(to right, @COLOR2, @COLOR2g); 
-        transform: translateY(-2px); 
-        outline: none; 
-    }
+  &:hover,
+  &:focus {
+    background: @COLOR2;
+    transform: translateY(-2px);
+    outline: none;
+  }
 
-    &:active {
-        transform: translateY(1px); 
-    }
+  &:active {
+    transform: translateY(1px);
+  }
 }

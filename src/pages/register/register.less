@@ -1,20 +1,20 @@
 @background: #00000033;
-@white: #FBFBFB;
+@white: #fbfbfb;
 @gradient-color: #333333;
-@accent-color: #FDA085;
+@accent-color: #fda085;
 
 .register-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 110vh;
 }
 
 .register-heading {
   font-size: 24px;
   color: @white;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
 }
 
 .register-form {
@@ -25,8 +25,8 @@
   max-width: 400px;
   width: 100%;
   margin-bottom: 20px;
+  color: black; /* Set the default text color to black */
 }
-
 
 .input-field {
   margin-bottom: 20px;
@@ -38,10 +38,30 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  color: black; /* Set the input text color to black */
 }
+
+.role-selection {
+  display: flex;
+  flex-direction: column; /* Arrange checkboxes vertically */
+  align-items: flex-start; /* Align items to the start of the flex container */
+  margin-bottom: 20px;
+
+  label {
+    color: black; /* Set the label text color to black */
+    margin-bottom: 10px; /* Add spacing between labels */
+    display: flex;
+    align-items: center; /* Center items vertically */
+  }
+
+  input[type="checkbox"] {
+    margin-right: 5px; /* Add a small margin to checkboxes */
+  }
+}
+
 .sign-in-link {
   font-size: 14px;
-  color: #ffffff; 
+  color: #ffffff;
 }
 
 .sign-in-link a {

@@ -1,31 +1,31 @@
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./verifyEmail.less";
 
 const EmailVerify = () => {
-  const [message, setMessage] = useState("");
-  const param = useParams();
+  const { userId, token } = useParams();
+  const navigate = useNavigate();
 
-  const handleVerify = async () => {
-    try {
-      const url = `http://localhost:5000/api/users/verify/${param.userId}/${param.token}`;
-      const { data } = await axios.post(url); // Send POST request to verify user
-      console.log(data);
-      setMessage("Email verified successfully. You can now log in.");
-    } catch (error) {
-      console.log(error);
-      setMessage("Verification failed. Invalid or expired link.");
-    }
-  };
+  useEffect(() => {
+    const verifyEmail = async () => {
+      try {
+        console.log(`Attempting to verify email with userId: ${userId} and token: ${token}`);
+        const url = `http://localhost:5000/api/users/verify/${userId}/${token}`;
+        const response = await axios.post(url);
+        console.log('Verification response:', response.data);
+        navigate('/login', { replace: true });
+      } catch (error) {
+        console.error('Error verifying email:', error);
+        navigate('/login', { replace: true });
+      }
+    };
+
+    verifyEmail();
+  }, [userId, token, navigate]);
 
   return (
-    <div className="VerifyEmail-page">
-      <div className="VerifyEmail">
-        <h1>Verify Your Email</h1>
-        <button className="verify-button" onClick={handleVerify}>Verify</button>
-        {message && <p>{message}</p>}
-      </div>
+    <div>
+      <h1>Verifying your email...</h1>
     </div>
   );
 };

@@ -1,0 +1,59 @@
+.orders-container {
+  padding: 2rem;
+  background: #f2f4f8;
+  min-height: 100vh;
+  color: #333; /* Set the default text color to black */
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333; /* Ensure the heading color is black */
+    font-weight: 700;
+  }
+
+  .orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .order-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: #333; /* Ensure the text color is black */
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .order-info {
+        p {
+          margin: 0.5rem 0;
+          color: #333; /* Ensure the paragraph text color is black */
+        }
+      }
+
+      .order-items-preview {
+        display: flex;
+        gap: 0.75rem;
+
+        img {
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 8px;
+          border: 1px solid #ddd;
+        }
+      }
+    }
+  }
+}

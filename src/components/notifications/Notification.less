@@ -1,0 +1,50 @@
+.notification {
+  position: fixed;
+  top: 75px; // Adjust this value to move the notification lower
+  right: 20px;
+  width: 350px; // Increase width
+  padding: 15px 20px; // Increase padding
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  z-index: 1000;
+  opacity: 0.95;
+  display: flex;
+  flex-direction: column;
+
+  &.info {
+    border-left: 4px solid #2196f3;
+  }
+
+  &.success {
+    border-left: 4px solid #4caf50;
+  }
+
+  &.error {
+    border-left: 4px solid #f44336;
+  }
+
+  &.warning {
+    border-left: 4px solid #ff9800;
+  }
+}
+
+.notification-content {
+  font-size: 18px; // Increase font size
+  color: #000; // Set text color to black
+}
+
+.notification-timer {
+  height: 6px; // Increase height of progress bar
+  background: #4caf50; // Make the green more vibrant
+  animation: timer 3s linear forwards;
+}
+
+@keyframes timer {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}

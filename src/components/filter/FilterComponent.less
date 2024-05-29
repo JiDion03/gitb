@@ -1,28 +1,32 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round');
-
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
 
 @GAP: 15px;
-@WHITE: #FBFBFB;
+@WHITE: #fbfbfb;
 @BLACK: #333333;
-@COLOR1: #FDA085; @COLOR1g: #F6D365;
-@COLOR2: #BFF098; @COLOR2g: #6FD6FF;
-@COLOR3: #EA8D8D; @COLOR3g: #A890FE;
-@COLOR4: #D8B5FF; @COLOR4g: #1EAE98;
+@COLOR1: #fda085;
+@COLOR1g: #f6d365;
+@COLOR2: #bff098;
+@COLOR2g: #6fd6ff;
+@COLOR3: #ea8d8d;
+@COLOR3g: #a890fe;
+@COLOR4: #d8b5ff;
+@COLOR4g: #1eae98;
 @COLOR6: @COLOR1;
 
 .filter-component {
   position: fixed !important;
-  top: 70% !important; 
+  top: 70% !important;
   left: 0 !important;
-  width: 200px !important; 
+  width: 200px !important;
   background-color: @BLACK !important;
   color: @WHITE !important;
   padding: @GAP !important;
-  font-family: 'Varela Round', sans-serif !important;
+  font-family: "Varela Round", sans-serif !important;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5) !important;
-  z-index: 5 !important; 
+  z-index: 5 !important;
 
-  select, input[type="number"] {
+  select,
+  input[type="number"] {
     width: calc(100% - 2 * @GAP) !important;
     margin: @GAP 0 !important;
     padding: 8px !important;
@@ -61,6 +65,6 @@
 
 @media (min-width: 600px) {
   .filter-component {
-    width: 250px !important; 
+    width: 250px !important;
   }
 }

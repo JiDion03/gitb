@@ -5,7 +5,7 @@ function FetchData() {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('/api') // Assuming your backend has a route '/api' that returns data
+        axios.get('/api') 
             .then(response => {
                 console.log('Data fetched:', response.data);
                 setData(response.data);

@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
-
 * {
   margin: 0;
   font-family: "Quicksand";
-  color: #3333;
+  color: #ffffff;
 }
 
 .navbar {
@@ -29,14 +28,14 @@
 
 .navbar .links {
   margin-left: auto;
-  margin-right: auto; 
+  margin-right: auto;
 }
 
 .navbar a {
   margin-left: 16px;
   text-decoration: none;
   padding: 6px;
-  color: floralwhite
+  color: floralwhite;
 }
 
 .navbar a:hover {
@@ -48,4 +47,17 @@
   margin: 40px auto;
   padding: 20px;
   padding-top: 80px;
+}
+
+/* Login, Register, and Search Bar Input Fields */
+.login-form input,
+.register-form input,
+.search-bar input {
+  color: black; /* Set the input text color to black */
+}
+
+.login-form input::placeholder,
+.register-form input::placeholder,
+.search-bar input::placeholder {
+  color: #666; /* Optional: Set placeholder text color */
 }
