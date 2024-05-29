@@ -1,37 +1,13 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: Number,
-        required: true
-    },
-    categories: {
-        main: {
-            type: String,
-            required: true
-        },
-        sub: {
-            type: String,
-            required: true
-        }
-    },
-    images: {
-        type: [String],
-        validate: {
-            validator: function(v) {
-                return v.length <= 4; 
-            },
-            message: 'Exceeds the limit of 4 images'
-        }
-    }
-});
+    name: { type: String, required: true },
+    description: { type: String },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    distributor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    ratings: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, rating: Number }]
+}, { timestamps: true });
 
-module.exports = mongoose.model('Item', itemSchema);
+const Item = mongoose.model('Item', itemSchema);
+module.exports = Item;

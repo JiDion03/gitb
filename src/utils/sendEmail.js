@@ -1,31 +1,37 @@
 const nodemailer = require("nodemailer");
 
-module.exports = async (email, subject, text) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.HOST,
-      service: process.env.SERVICE,
-      port: Number(process.env.EMAIL_PORT),
-      secure: Boolean(process.env.SECURE), // true for 465, false for other ports
-      auth: {
-        user: process.env.USER,
-        pass: process.env.PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+module.exports = async (email, subject, url) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: process.env.HOST,
+            service: process.env.SERVICE,
+            port: Number(process.env.EMAIL_PORT),
+            secure: Boolean(process.env.SECURE), // true for 465, false for other ports
+            auth: {
+                user: process.env.USER,
+                pass: process.env.PASS,
+            },
+            tls: {
+                rejectUnauthorized: false,
+            },
+        });
 
-    const info = await transporter.sendMail({
-      from: process.env.USER,
-      to: email,
-      subject: subject,
-      text: text,
-    });
+        const html = `
+            <p>Please verify your email by clicking the link below:</p>
+            <a href="${url}" target="_blank" rel="noopener noreferrer">Verify Email</a>
+        `;
 
-    console.log("Email sent: %s", info.messageId);
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw error; // Throw error to handle it in calling function
-  }
+        const info = await transporter.sendMail({
+            from: process.env.USER,
+            to: email,
+            subject: subject,
+            html: html,
+        });
+
+        console.log("Email sent: %s", info.messageId);
+        console.log("Verification URL: %s", url);
+    } catch (error) {
+        console.error("Error sending email:", error);
+        throw error; // Throw error to handle it in calling function
+    }
 };

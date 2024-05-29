@@ -1,4 +1,4 @@
-// middleware/verifyRole.js
+
 const User = require('../models/User');
 
 const verifyDistributor = async (req, res, next) => {

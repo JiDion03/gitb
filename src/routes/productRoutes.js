@@ -15,10 +15,14 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// In routes/productRoutes.js
 router.post('/add', authenticate, upload.array('images', 4), async (req, res) => {
+  console.log('Request body:', req.body);
+  console.log('Request files:', req.files);
+
   try {
-    const { name, description, price, category, subcategory } = req.body;
-    const imagePaths = req.files.map(file => `uploads/${file.filename}`); // Store relative path
+    const { name, description, price, category, subcategory, quantity, distributor } = req.body;
+    const imagePaths = req.files.map(file => `uploads/${file.filename}`);
 
     const newProduct = new Product({
       name,
@@ -26,6 +30,8 @@ router.post('/add', authenticate, upload.array('images', 4), async (req, res) =>
       price,
       category,
       subcategory,
+      quantity, // Ensure quantity is included
+      distributor, // Ensure distributor is included
       images: imagePaths,
       userId: req.user.id // Assuming the authenticated user ID is available
     });
@@ -38,9 +44,13 @@ router.post('/add', authenticate, upload.array('images', 4), async (req, res) =>
   }
 });
 
+
+// Fetch products by user ID
 router.get('/user/:userId', async (req, res) => {
   try {
+    console.log('Fetching products for userId:', req.params.userId); // Debug log
     const products = await Product.find({ userId: req.params.userId });
+    console.log('Fetched products:', products); // Debug log
     res.json(products);
   } catch (error) {
     console.error('Failed to fetch products:', error);
@@ -85,17 +95,109 @@ router.get('/filter', async (req, res) => {
   }
 });
 
+// Fetch product details including reviews and distributor
 router.get('/:productId', async (req, res) => {
   try {
-      const product = await Product.findById(req.params.productId);
-      if (!product) {
-          return res.status(404).json({ message: 'Product not found' });
-      }
-      res.json(product);
+    const product = await Product.findById(req.params.productId)
+      .populate('distributor', 'firstName lastName')
+      .populate('reviews.user', 'firstName lastName');
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.status(200).json(product);
   } catch (error) {
-      res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Error fetching product details', error: error.message });
   }
 });
 
+// Add a review to a product
+router.post('/:productId/reviews', authenticate, async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { rating, comment } = req.body;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    const review = {
+      user: req.user._id,
+      rating,
+      comment,
+      createdAt: new Date()
+    };
+
+    product.reviews.push(review);
+    await product.save();
+
+    res.status(201).json(review);
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ message: 'Failed to add review' });
+  }
+});
+
+router.put('/:productId', authenticate, async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { name, description, price, quantity, distributor } = req.body;
+
+    // Ensure distributor is included in the request body
+    if (!distributor) {
+      return res.status(400).json({ message: 'Distributor is required' });
+    }
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Update product details
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.price = price || product.price;
+    product.quantity = quantity || product.quantity;
+    product.distributor = distributor;
+
+    await product.save();
+
+    res.json(product);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/distributor-products', authenticate, async (req, res) => {
+  console.log('Authenticated user:', req.user); // Log the authenticated user
+
+  if (!req.user) {
+    return res.status(401).json({ message: 'No authenticated user found' });
+  }
+
+  try {
+    const products = await Product.find({ distributor: req.user._id });
+    console.log('Fetched products for distributor:', req.user._id, products); // Log fetched products
+    res.json(products);
+  } catch (error) {
+    console.error('Failed to fetch distributor products:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+router.delete('/:productId', authenticate, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    await product.remove();
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 module.exports = router;
